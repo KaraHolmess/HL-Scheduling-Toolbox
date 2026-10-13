@@ -219,20 +219,20 @@ render();
 </script>
 <script>
 var TPL=[
-{t:"New patient SMS",x:"Message from Heartland Cardiology, you've been scheduled for a new patient appointment with [Provider Last Name] on [Date & Time] at our [Clinic Location] location. Call us at (316) 686-5300, option 1 to reschedule."},
-{t:"Existing patient SMS (\"new\" removed)",x:"Message from Heartland Cardiology, you've been scheduled for a appointment with [Provider Last Name] on [Date & Time] at our [Clinic Location] location. Call us at (316) 686-5300, option 1 to reschedule."},
-{t:"Special case — provider specified",x:"Please schedule this patient. Referred to [Provider Last Name] for [Referral Reason]. They are [Special Category]."},
+{t:"New patient SMS",x:"Message from Heartland Cardiology, you've been scheduled for a new patient appointment with Dr. [Provider Last Name] on [Date & Time] at our [Clinic Location] location. Call us at (316) 686-5300, option 1 to reschedule."},
+{t:"Existing patient SMS (\"new\" removed)",x:"Message from Heartland Cardiology, you've been scheduled for a appointment with Dr. [Provider Last Name] on [Date & Time] at our [Clinic Location] location. Call us at (316) 686-5300, option 1 to reschedule."},
+{t:"Special case — provider specified",x:"Please schedule this patient. Referred to Dr. [Provider Last Name] for [Referral Reason]. They are [Special Category]."},
 {t:"Special case — no provider specified",x:"Please schedule this patient. Referred to first available for [Referral Reason]. They are [Special Category]."},
-{t:"Urgent appointment within 72 hours",x:"Patient scheduled with [Provider Last Name], dx: [Diagnosis], high priority appointment scheduled for [Date & Time] at the [Clinic Location] clinic. Please prep patient chart."},
-{t:"Incoming referral notice (patient already has an appointment)",x:"Be advised of incoming referral from [Referring Provider Last Name] for dx: [Diagnosis]. Patient is currently scheduled for [Appointment Reason] with [Provider Last Name] on [Date & Time] at the [Clinic Location] location. Documents have been uploaded to patient chart."},
-{t:"Imaging TE",x:"Please schedule this patient. Referred to [Provider Last Name] for [Imaging Type], [Diagnosis]."},
-{t:"Established patient clearance TE",x:"Please schedule this patient. Referred to [Provider Last Name] for Cardiac Clearance. They are an established patient."},
-{t:"Missing phone number TE",x:"Please schedule this patient. Referred to [Provider Last Name] for [Referral Reason]. Patient is missing phone number, please reach out to the referring provider."},
+{t:"Urgent appointment within 72 hours",x:"Patient scheduled with Dr. [Provider Last Name], dx: [Diagnosis], high priority appointment scheduled for [Date & Time] at the [Clinic Location] clinic. Please prep patient chart."},
+{t:"Incoming referral notice (patient already has an appointment)",x:"Be advised of incoming referral from Dr. [Referring Provider Last Name] for dx: [Diagnosis]. Patient is currently scheduled for [Appointment Reason] with Dr. [Provider Last Name] on [Date & Time] at the [Clinic Location] location. Documents have been uploaded to patient chart."},
+{t:"Imaging TE",x:"Please schedule this patient. Referred to Dr. [Provider Last Name] for [Imaging Type], [Diagnosis]."},
+{t:"Established patient clearance TE",x:"Please schedule this patient. Referred to Dr. [Provider Last Name] for Cardiac Clearance. They are an established patient."},
+{t:"Missing phone number TE",x:"Please schedule this patient. Referred to Dr. [Provider Last Name] for [Referral Reason]. Patient is missing phone number, please reach out to the referring provider."},
 {t:"eCW appointment reason note",x:"[Provider Initials] [NP or EP] referral from [Referring Provider Last Name] dx [Diagnosis]",nodr:1}];
 TPL[1].x=TPL[1].x.replace("a appointment","an appointment");
 var DR=["Provider Last Name","Referring Provider Last Name"];
 function stripDr(v){return v.replace(/^\s*dr\.?\s*/i,"").trim()}
-function build(tp,vals){return tp.x.replace(/\[([^\]]+)\]/g,function(m,k){var v=(vals[k]||"").trim();if(!v)return m;if(!tp.nodr&&DR.indexOf(k)>-1){var s=stripDr(v);return s?"Dr. "+s:m}return v})}
+function build(tp,vals){return tp.x.replace(/\[([^\]]+)\]/g,function(m,k){var v=(vals[k]||"").trim();if(!v)return m;if(!tp.nodr&&DR.indexOf(k)>-1){var s=stripDr(v);return s?s:m}return v})}
 (function(){var box=document.getElementById("tplbox");
 TPL.forEach(function(tp){var vals={},c=document.createElement("div");c.className="card";
 var h2=document.createElement("h2");h2.textContent=tp.t;c.appendChild(h2);
