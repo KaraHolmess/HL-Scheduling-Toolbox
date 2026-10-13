@@ -31,6 +31,34 @@ a.btn.alt,button.btn.alt{background:var(--bg);color:var(--tx);border:1px solid v
 .loc{border:1px solid var(--bd);border-radius:10px;padding:10px;background:var(--bg)}.loc.sel{border-color:var(--pr);box-shadow:0 0 0 2px var(--pr) inset}
 iframe{width:100%;height:80vh;border:1px solid var(--bd);border-radius:10px;background:#fff}
 li{margin-bottom:4px}
+
+#ct{--k-bg:#f6f7f9;--k-card:#fff;--k-ink:#1c2230;--k-muted:#5d6677;--k-line:#dfe3ea;--k-acc:#a8243a;--k-soft:#fbeaed;--k-ok:#1d6b45;--k-fill:#e6f2ec;color:var(--k-ink)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #ct{--k-bg:#14171d;--k-card:#1d2129;--k-ink:#eceff4;--k-muted:#9aa3b2;--k-line:#2b313c;--k-acc:#d9485e;--k-soft:#3a1f26;--k-ok:#5fc08f;--k-fill:#1f3329}}
+:root[data-theme="dark"] #ct{--k-bg:#14171d;--k-card:#1d2129;--k-ink:#eceff4;--k-muted:#9aa3b2;--k-line:#2b313c;--k-acc:#d9485e;--k-soft:#3a1f26;--k-ok:#5fc08f;--k-fill:#1f3329}
+#ct .ct-hint{color:var(--k-muted);margin:0 0 10px}
+#ct .ct-bar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 54px);z-index:4;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--k-line)}
+#ct #ct-search{width:100%;padding:12px 14px;font:inherit;color:var(--k-ink);background:var(--k-card);border:1px solid var(--k-line);border-radius:8px}
+#ct #ct-nav{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:2px}
+#ct .ct-chip{white-space:nowrap;padding:6px 12px;border-radius:999px;font:inherit;font-size:.875rem;color:var(--k-ink);background:var(--k-card);border:1px solid var(--k-line);cursor:pointer}
+#ct .ct-chip:hover{border-color:var(--k-acc);color:var(--k-acc)}
+#ct .ct-category{scroll-margin-top:140px}
+#ct .ct-category h2{font-size:1.25rem;margin:28px 0 12px;padding-left:10px;border-left:4px solid var(--k-acc)}
+#ct .ct-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr));gap:16px}
+#ct .ct-card{background:var(--k-card);border:1px solid var(--k-line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px}
+#ct [hidden]{display:none!important}
+#ct .ct-card h3{margin:0;font-size:1rem}
+#ct .ct-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+#ct .ct-fields input{padding:9px 10px;font:inherit;font-size:.9rem;color:var(--k-ink);background:var(--k-bg);border:1px solid var(--k-line);border-radius:6px;min-width:0}
+#ct input:focus-visible,#ct button:focus-visible{outline:3px solid var(--k-acc);outline-offset:2px}
+#ct .ct-preview{margin:0;padding:12px;background:var(--k-bg);border-radius:6px;font-size:.95rem;flex:1;overflow-wrap:anywhere}
+#ct .ct-empty{color:var(--k-acc);background:var(--k-soft);border-radius:3px;padding:0 2px}
+#ct .ct-filled{background:var(--k-fill);border-radius:3px;padding:0 2px}
+#ct .ct-copy{align-self:flex-start;min-width:120px;padding:10px 18px;font:inherit;font-weight:600;color:#fff;background:var(--k-acc);border:0;border-radius:8px;cursor:pointer}
+#ct .ct-copy:hover{filter:brightness(1.1)}#ct .ct-copy.done{background:var(--k-ok)}
+#ct #ct-none{text-align:center;color:var(--k-muted);padding:48px 0}
+#ct-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:#1c2230;color:#fff;padding:10px 16px;border-radius:8px;font-size:.9rem;pointer-events:none;transition:opacity .2s,transform .2s;max-width:90vw;z-index:20}
+#ct-toast.show{opacity:1;transform:translate(-50%,0)}
+@media (max-width:520px){#ct .ct-copy{align-self:stretch;padding:14px}}
 </style></head><body>
 <header><h1>❤️ Heartland Scheduling Toolbox</h1><p>Provider &amp; location helper · Rules reference · Copy Tool</p></header>
 <nav id="nav"></nav>
@@ -89,21 +117,14 @@ li{margin-bottom:4px}
 <li>Gedela clips/Watchman: if no slot within 2 weeks → Gedela,Scheduling (high priority). TAVR: don't schedule, urgent Tel Enc to Gedela,Scheduling.</li></ul></div>
 </section>
 
-<!-- PAGE 2b -->
-<section class="page" id="p-templates">
-<div class="alert i">Fill in the blanks and press <b>Copy</b>. Type only the provider's <b>last name</b> — “Dr.” is added automatically. Blank fields keep their [bracket] text.</div>
-<div id="tplbox"></div>
-</section>
-<!-- PAGE 3 -->
-<section class="page" id="p-copy">
-<div class="card"><h2>Heartland Cardiology Copy Tool</h2>
-<p class="mu" style="margin-top:0">Your original tool, unchanged, shown exactly as it is hosted.</p>
-<a class="btn" href="https://karaholmess.github.io/HL-Copy-Tool/" target="_blank" rel="noopener">Open in new tab ↗</a></div>
-<iframe src="https://karaholmess.github.io/HL-Copy-Tool/" title="HL Copy Tool"></iframe>
-</section>
+<section class="page" id="p-copy"><div id="ct">
+<p class="ct-hint">Fill in the fields, then press Copy. Type only the provider's last name — “Dr.” is added automatically. Blank fields keep their [bracket] text.</p>
+<div class="ct-bar"><input id="ct-search" type="search" placeholder="Search templates" aria-label="Search templates" autocomplete="off"><nav id="ct-nav" aria-label="Categories"></nav></div>
+<div id="ct-app"></div><p id="ct-none" hidden>No templates match your search.</p></div><div id="ct-toast" role="status" aria-live="polite"></div></section>
+
 </main>
 <script>
-var PAGES=[["locator","📍 Provider Locator"],["rules","📋 Rules"],["templates","📝 Copy Templates"],["copy","📄 Original Copy Tool"]];
+var PAGES=[["locator","📍 Provider Locator"],["rules","📋 Rules"],["copy","📝 Copy Tool"]];
 var nav=document.getElementById("nav");
 PAGES.forEach(function(p){var b=document.createElement("button");b.textContent=p[1];b.dataset.p=p[0];b.onclick=function(){go(p[0])};nav.appendChild(b)});
 function go(id){PAGES.forEach(function(p){document.getElementById("p-"+p[0]).classList.toggle("on",p[0]===id)});
@@ -216,35 +237,149 @@ d.innerHTML="<b>"+p.n+'</b> <span class="mu">('+p.i+")</span><div>"+nearTag(p)+b
 if(!c)P.innerHTML='<p class="mu">No providers match. Try clearing the search, day or location filter.</p>';
 document.getElementById("sub").textContent=(S.q?"Search: “"+S.q+"” · ":"No provider specified: use the default NP group (Mohamed, Alkawaleet, Gedela, Boppana) · ")+(S.loc?"Location: "+S.loc+" · ":"")+(S.day!=null?DAYS[S.day]+" · ":"")+c+" shown"}
 render();
+</script><script>
+(function(){
+const PH=/\[([^\]]+)\]/g;
+const TEMPLATE_DATA = [
+  {
+    category: "Patient SMS",
+    templates: [
+      {
+        title: "Heartland Scheduling SMS Prompt",
+        text: "Message from Heartland Cardiology, you've been scheduled for a new patient appointment with Dr. [Provider Last Name] on [Date & Time] at our [Clinic Location] location. Call us at (316) 686-5300, option 1 to reschedule."
+      }
+    ]
+  },
+  {
+    category: "Referral & Scheduling TEs",
+    templates: [
+      {
+        title: "Referred-To Specific Provider Special Case TE",
+        text: "Please schedule this patient. Referred to Dr. [Provider Last Name] for [Diagnosis]. They are [Special Category]. Documents have been uploaded to patient chart."
+      },
+      {
+        title: "No Referred-To Provider Special Case TE",
+        text: "Please schedule this patient. Referred to first available provider for [Diagnosis]. They are [Special Category]. Documents have been uploaded to patient chart."
+      },
+      {
+        title: "Incoming Referral Notice: Pt Scheduled Already Within 3 Months",
+        text: "Be advised of incoming referral from Dr. [Referring Provider Last Name] for [Diagnosis]. Patient is currently scheduled for [Appointment Reason] with Dr. [Provider Last Name] on [Date & Time]. Documents have been uploaded to patient chart."
+      },
+      {
+        title: "Rendering Provider Conflict Action",
+        text: "Please call the patient to confirm whether they are looking to switch providers. Referred to Dr. [Referring Provider Last Name] but previously saw Dr. [Previous Provider Last Name] on [Date]. If so, please schedule. Documents have already been added to the patient's chart."
+      }
+    ]
+  },
+  {
+    category: "Priority",
+    templates: [
+      {
+        title: "High Priority - No Availability TE",
+        text: "Please urgently schedule this patient. Referred to Dr. [Provider Last Name] for [Diagnosis]. There is no availability within 5 business days. Documents have been uploaded to the patient's chart."
+      },
+      {
+        title: "Scheduled Patient Within 48-72 Hrs TE",
+        text: "Patient is scheduled for a high priority appointment with Dr. [Provider Last Name] for [Diagnosis] on [Date & Time] at the [Clinic Location] location. Please prep patient chart."
+      }
+    ]
+  },
+  {
+    category: "Procedures & Imaging",
+    templates: [
+      {
+        title: "Imaging TE",
+        text: "Please schedule this patient. Referred to Dr. [Provider Last Name] for [Imaging Type], [Diagnosis]."
+      },
+      {
+        title: "Cardiac Clearance Established Patient TE",
+        text: "Please schedule this patient. Referred to Dr. [Provider Last Name] for Cardiac Clearance. They are an established patient."
+      },
+      {
+        title: "Gedela TAVR TE",
+        text: "Please schedule this patient. Referred to Dr. Gedela for TAVR, [Diagnosis]."
+      },
+      {
+        title: "Gedela Mitral/Triclip/Watchman/LAOO",
+        text: "Please schedule this patient. Referred to Dr. Gedela for [Requested Procedure Type]."
+      }
+    ]
+  },
+  {
+    category: "Insurance & Contact Issues",
+    templates: [
+      {
+        title: "Missing Phone Number TE",
+        text: "Please schedule this patient. Referred to Dr. [Provider Last Name] for [Diagnosis]. Patient is missing phone number."
+      },
+      {
+        title: "Missing Insurance TE",
+        text: "Please schedule this patient. Referred to Dr. [Provider Last Name] for [Diagnosis]. They are missing insurance."
+      },
+      {
+        title: "Unsure/Denied Insurance TE",
+        text: "Please schedule this patient. Referred to Dr. [Provider Last Name] for [Diagnosis]. Patient insurance is ineligible."
+      }
+    ]
+  },
+  {
+    category: "Special Patient Cases",
+    templates: [
+      {
+        title: "Requires Translation (Non-English Speaking) TE",
+        text: "Please schedule this patient. Referred to Dr. [Provider Last Name] for [Diagnosis]. They are [Language]-speaking."
+      },
+      {
+        title: "Inmate TE",
+        text: "Please schedule this patient. Referred to Dr. [Provider Last Name] for [Diagnosis]. Patient is an inmate."
+      },
+      {
+        title: "St. Luke's Transplant TE",
+        text: "Please schedule this patient. Referred to Dr. [Provider Last Name] for [Diagnosis]. Patient is a transplant candidate."
+      },
+      {
+        title: "Pediatric (<18 yrs old) TE",
+        text: "Please schedule this patient. Referred to Dr. [Provider Last Name] for [Diagnosis]. Patient is a minor."
+      },
+      {
+        title: "Telemed Request TE",
+        text: "Please schedule this patient. Referred to Dr. [Provider Last Name] for [Diagnosis]. Patient is requesting a Telemed appointment."
+      }
+    ]
+  }
+];
+function getFields(text){const seen=[];for(const m of text.matchAll(PH))if(!seen.includes(m[1]))seen.push(m[1]);return seen}
+function buildParts(text,values){const parts=[];let last=0;
+for(const m of text.matchAll(PH)){if(m.index>last)parts.push({text:text.slice(last,m.index),kind:"plain"});
+let v=(values[m[1]]||"").trim();
+if(text.slice(Math.max(0,m.index-4),m.index)==="Dr. ")v=v.replace(/^dr(\.\s*|\s+)/i,"").trim();
+if(!v)parts.push({text:m[0],kind:"empty"});else parts.push({text:v,kind:"filled"});
+last=m.index+m[0].length}
+if(last<text.length)parts.push({text:text.slice(last),kind:"plain"});return parts}
+function buildText(text,values){return buildParts(text,values).map(function(p){return p.text}).join("")}
+window.__ctBuild=buildText;
+const app=document.getElementById("ct-app"),nav=document.getElementById("ct-nav"),search=document.getElementById("ct-search"),none=document.getElementById("ct-none"),toast=document.getElementById("ct-toast");
+let toastTimer;
+const el=function(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e};
+function copyText(text){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text);
+return new Promise(function(res,rej){const ta=el("textarea");ta.value=text;ta.style.cssText="position:fixed;opacity:0";document.body.appendChild(ta);ta.select();let ok=false;try{ok=document.execCommand("copy")}catch(e){}ta.remove();ok?res():rej()})}
+function showToast(msg){toast.textContent=msg;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(function(){toast.classList.remove("show")},1800)}
+function makeCard(t){const card=el("article","ct-card");card.dataset.search=(t.title+" "+t.text).toLowerCase();card.appendChild(el("h3","",t.title));
+const values={},preview=el("p","ct-preview");
+const render=function(){preview.replaceChildren.apply(preview,buildParts(t.text,values).map(function(p){return el("span",p.kind==="plain"?"":"ct-"+p.kind,p.text)}))};
+const fields=getFields(t.text);
+if(fields.length){const grid=el("div","ct-fields");fields.forEach(function(label){const input=el("input");input.type="text";input.placeholder=label;input.setAttribute("aria-label",label);input.autocomplete="off";input.addEventListener("input",function(){values[label]=input.value;render()});grid.appendChild(input)});card.appendChild(grid)}
+card.appendChild(preview);render();
+const btn=el("button","ct-copy","Copy");btn.type="button";
+btn.addEventListener("click",function(){copyText(buildText(t.text,values)).then(function(){btn.textContent="Copied";btn.classList.add("done");showToast("Copied: "+t.title);setTimeout(function(){btn.textContent="Copy";btn.classList.remove("done")},1800)},function(){showToast("Copy failed. Select the text and copy manually.")})});
+card.appendChild(btn);return card}
+TEMPLATE_DATA.forEach(function(cat,i){const id="ct-cat-"+i,sec=el("section","ct-category");sec.id=id;sec.appendChild(el("h2","",cat.category));
+const list=el("div","ct-cards");cat.templates.forEach(function(t){list.appendChild(makeCard(t))});sec.appendChild(list);app.appendChild(sec);
+const a=el("button","ct-chip",cat.category);a.type="button";a.addEventListener("click",function(){sec.scrollIntoView({behavior:"smooth",block:"start"})});nav.appendChild(a)});
+search.addEventListener("input",function(){const q=search.value.trim().toLowerCase();let any=false;
+document.querySelectorAll("#ct .ct-category").forEach(function(sec){let shown=0;sec.querySelectorAll(".ct-card").forEach(function(c){const hit=!q||c.dataset.search.indexOf(q)>-1;c.hidden=!hit;if(hit)shown++});sec.hidden=shown===0;if(shown)any=true});
+nav.hidden=!!q;none.hidden=any});
+window.__ctData=TEMPLATE_DATA;
+})();
 </script>
-<script>
-var TPL=[
-{t:"New patient SMS",x:"Message from Heartland Cardiology, you've been scheduled for a new patient appointment with Dr. [Provider Last Name] on [Date & Time] at our [Clinic Location] location. Call us at (316) 686-5300, option 1 to reschedule."},
-{t:"Existing patient SMS (\"new\" removed)",x:"Message from Heartland Cardiology, you've been scheduled for a appointment with Dr. [Provider Last Name] on [Date & Time] at our [Clinic Location] location. Call us at (316) 686-5300, option 1 to reschedule."},
-{t:"Special case — provider specified",x:"Please schedule this patient. Referred to Dr. [Provider Last Name] for [Referral Reason]. They are [Special Category]."},
-{t:"Special case — no provider specified",x:"Please schedule this patient. Referred to first available for [Referral Reason]. They are [Special Category]."},
-{t:"Urgent appointment within 72 hours",x:"Patient scheduled with Dr. [Provider Last Name], dx: [Diagnosis], high priority appointment scheduled for [Date & Time] at the [Clinic Location] clinic. Please prep patient chart."},
-{t:"Incoming referral notice (patient already has an appointment)",x:"Be advised of incoming referral from Dr. [Referring Provider Last Name] for dx: [Diagnosis]. Patient is currently scheduled for [Appointment Reason] with Dr. [Provider Last Name] on [Date & Time] at the [Clinic Location] location. Documents have been uploaded to patient chart."},
-{t:"Imaging TE",x:"Please schedule this patient. Referred to Dr. [Provider Last Name] for [Imaging Type], [Diagnosis]."},
-{t:"Established patient clearance TE",x:"Please schedule this patient. Referred to Dr. [Provider Last Name] for Cardiac Clearance. They are an established patient."},
-{t:"Missing phone number TE",x:"Please schedule this patient. Referred to Dr. [Provider Last Name] for [Referral Reason]. Patient is missing phone number, please reach out to the referring provider."},
-{t:"eCW appointment reason note",x:"[Provider Initials] [NP or EP] referral from [Referring Provider Last Name] dx [Diagnosis]",nodr:1}];
-TPL[1].x=TPL[1].x.replace("a appointment","an appointment");
-var DR=["Provider Last Name","Referring Provider Last Name"];
-function stripDr(v){return v.replace(/^\s*dr\.?\s*/i,"").trim()}
-function build(tp,vals){return tp.x.replace(/\[([^\]]+)\]/g,function(m,k){var v=(vals[k]||"").trim();if(!v)return m;if(!tp.nodr&&DR.indexOf(k)>-1){var s=stripDr(v);return s?s:m}return v})}
-(function(){var box=document.getElementById("tplbox");
-TPL.forEach(function(tp){var vals={},c=document.createElement("div");c.className="card";
-var h2=document.createElement("h2");h2.textContent=tp.t;c.appendChild(h2);
-var g=document.createElement("div");g.className="grid";var keys=[];tp.x.replace(/\[([^\]]+)\]/g,function(m,k){if(keys.indexOf(k)<0)keys.push(k)});
-var pre=document.createElement("div");pre.style.cssText="white-space:pre-wrap;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:10px;margin:10px 0 6px";
-function upd(){pre.textContent=build(tp,vals)}
-keys.forEach(function(k){var w=document.createElement("div"),l=document.createElement("div");l.className="mu";l.textContent=k+(!tp.nodr&&DR.indexOf(k)>-1?" (Dr. added automatically)":"");
-var i=document.createElement("input");i.type="text";i.placeholder=k;i.oninput=function(){vals[k]=i.value;upd()};w.appendChild(l);w.appendChild(i);g.appendChild(w)});
-c.appendChild(g);c.appendChild(pre);upd();
-var b=document.createElement("button");b.className="btn";b.textContent="Copy";b.onclick=function(){var t=pre.textContent;function ok(){b.textContent="✓ Copied";setTimeout(function(){b.textContent="Copy"},1500)}
-function fb(){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){}document.body.removeChild(a)}
-if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,fb);else fb()};
-var r=document.createElement("button");r.className="btn alt";r.textContent="Clear";r.onclick=function(){vals={};[].forEach.call(g.querySelectorAll("input"),function(x){x.value=""});upd()};
-c.appendChild(b);c.appendChild(r);box.appendChild(c)})})();
-</script></body></html>
+</body></html>
